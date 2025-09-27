@@ -14,22 +14,39 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000) to see the application.
 
+## 🧪 Demo Account
+
+**Farmer Login:**
+- Email: `demo@farmer.com`
+- Password: any password (for demo)
+
 ## 📋 Features
 
-### Core Functionality
-- **Farmer Dashboard**: List fresh produce with harvest dates and quantities
+### 🚜 Farmer Features
+- **Authentication**: Simple login/registration system using localStorage
+- **Dashboard**: Comprehensive farmer dashboard with listings, orders, and messages
+- **Profile Management**: Detailed profiles with farming practices, certifications, and specialties
+- **Customer Chat**: Direct messaging system with customers
+- **Listing Management**: Add and manage produce listings with harvest dates
+
+### 🏪 Store Features  
 - **Store Dashboard**: Request produce and get matched with local farms
 - **Smart Matching**: Algorithm matches by distance, freshness, and quantity
 - **Order Tracking**: Real-time order status with delivery management
+
+### 🌍 General Features
 - **Live Metrics**: Impact tracking (orders, kg moved, km saved, CO₂ avoided)
 - **Interactive Maps**: Visual delivery routes using react-leaflet
+- **Admin Panel**: Database management and system metrics
 
 ### Pages & Flow
 1. **Landing Page** (`/`) - Role switcher and live impact metrics
-2. **Farmer Page** (`/farmer`) - Add listings and view inventory
-3. **Store Page** (`/store`) - Request produce and find matches
-4. **Order Details** (`/orders/[id]`) - Track delivery with map visualization
-5. **Admin Panel** (`/admin`) - Database management and system metrics
+2. **Farmer Auth** (`/farmer/auth`) - Login/registration for farmers
+3. **Farmer Dashboard** (`/farmer/dashboard`) - Manage listings, orders, and messages
+4. **Farmer Profile** (`/farmer/profile`) - Comprehensive profile management
+5. **Store Page** (`/store`) - Request produce and find matches
+6. **Order Details** (`/orders/[id]`) - Track delivery with map visualization
+7. **Admin Panel** (`/admin`) - Database management and system metrics
 
 ## 🛠️ Tech Stack
 
@@ -65,30 +82,44 @@ HarvestLink/
 
 ## 🔄 Complete User Flow
 
-### Test the Full Flow:
+### Test the Farmer Experience:
 
-1. **Start as Farmer** (`/farmer`):
-   - Select "Green Valley Farm"
-   - Add listing: "Tomatoes", 50kg, today's date
-   - View listing in table
+1. **Farmer Registration/Login** (`/farmer`):
+   - Click "I'm a Farmer" from landing page
+   - Use demo account: `demo@farmer.com` + any password
+   - Or register a new farmer account
 
-2. **Switch to Store** (`/store`):
-   - Select "Fresh Market"
-   - Request: "Tomatoes", 25kg, needed by tomorrow
-   - Click "Find Match" → Creates order automatically
+2. **Farmer Dashboard** (`/farmer/dashboard`):
+   - View comprehensive dashboard with tabs
+   - Add produce listings with harvest dates
+   - Check customer messages and respond
+   - View order status and history
 
-3. **View Order** (`/orders/[id]`):
-   - See order summary with farm/store details
-   - View delivery route on interactive map
-   - Click "Mark as Delivered" → Updates metrics
+3. **Farmer Profile** (`/farmer/profile`):
+   - Complete detailed profile information
+   - Add farming practices and certifications
+   - Specify crop specialties
+   - Share farm story and experience
 
-4. **Check Impact** (`/`):
-   - See live metrics update (orders, kg moved, CO₂ saved)
-   - Metrics refresh every 5 seconds
+### Test the Store Flow:
 
-5. **Admin Panel** (`/admin`):
-   - View system metrics and data overview
-   - Reset database to restore sample data
+4. **Store Dashboard** (`/store`):
+   - Select a store and request produce
+   - Get matched with farmers automatically
+   - Create orders and track deliveries
+
+5. **Order Management** (`/orders/[id]`):
+   - View order details with interactive map
+   - Mark orders as delivered
+   - Handle any issues or flags
+
+6. **Impact Tracking** (`/`):
+   - See live metrics update in real-time
+   - Track environmental impact
+
+7. **Admin Panel** (`/admin`):
+   - Monitor system performance
+   - Reset database when needed
 
 ## 🎯 Key Features Explained
 
@@ -112,7 +143,10 @@ HarvestLink/
 ## 🧪 Testing & Development
 
 ### Manual Testing Checklist:
-- [ ] Farmer can add listings
+- [ ] Farmer registration/login works
+- [ ] Farmer can complete profile with practices/certifications
+- [ ] Farmer can add listings from dashboard
+- [ ] Farmer can view and respond to customer messages
 - [ ] Store can request produce
 - [ ] Matching creates orders
 - [ ] Order page shows details + map
@@ -130,20 +164,27 @@ npm run lint     # Run ESLint
 
 ## 🌟 Highlights for Demo
 
-1. **Real-time Updates**: Metrics update every 5 seconds
-2. **Interactive Maps**: Visual delivery routes with farm/store pins
-3. **Smart UI**: Responsive design with loading states
-4. **Complete Flow**: End-to-end from listing to delivery
-5. **Environmental Focus**: CO₂ savings and local sourcing impact
+1. **Farmer Authentication**: Complete login/registration system
+2. **Rich Farmer Profiles**: Practices, certifications, and farm stories
+3. **Customer Messaging**: Direct chat between farmers and customers
+4. **Real-time Updates**: Metrics update every 5 seconds
+5. **Interactive Maps**: Visual delivery routes with farm/store pins
+6. **Smart UI**: Responsive design with loading states
+7. **Complete Flow**: End-to-end from registration to delivery
+8. **Environmental Focus**: CO₂ savings and local sourcing impact
 
 ## 🚧 Future Enhancements
 
-- User authentication and roles
-- Payment processing integration
-- QR code scanning for deliveries
-- Push notifications
-- Persistent database (PostgreSQL/MongoDB)
-- Mobile app with React Native
+- **Customer Authentication**: Login system for store customers
+- **Payment Processing**: Stripe/PayPal integration
+- **Real-time Notifications**: Push notifications for new messages/orders
+- **Mobile App**: React Native version for farmers on-the-go
+- **Advanced Analytics**: Detailed reporting and insights
+- **Multi-language Support**: Internationalization
+- **Persistent Database**: PostgreSQL/MongoDB with user sessions
+- **QR Code Scanning**: For delivery verification
+- **Inventory Management**: Stock tracking and alerts
+- **Review System**: Customer ratings and feedback
 
 ## 📝 API Endpoints
 
