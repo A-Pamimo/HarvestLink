@@ -21,6 +21,7 @@ export interface FarmerAuth {
   isAuthenticated: boolean
 }
 
+<<<<<<< HEAD
 export interface CustomerProfile {
   id: string
   email: string
@@ -46,6 +47,10 @@ const FARMER_AUTH_KEY = 'harvestlink_farmer_auth'
 const FARMERS_DB_KEY = 'harvestlink_farmers_db'
 const CUSTOMER_AUTH_KEY = 'harvestlink_customer_auth'
 const CUSTOMERS_DB_KEY = 'harvestlink_customers_db'
+=======
+const FARMER_AUTH_KEY = 'harvestlink_farmer_auth'
+const FARMERS_DB_KEY = 'harvestlink_farmers_db'
+>>>>>>> 345756831cd4f8276e0cecc2fecdf867e0a398b9
 
 // Get current authenticated farmer
 export function getCurrentFarmer(): FarmerAuth {
@@ -188,6 +193,7 @@ export function updateFarmerProfile(updates: Partial<FarmerProfile>): { success:
 
   return { success: true, farmer: updatedFarmer }
 }
+<<<<<<< HEAD
 
 // ===== CUSTOMER AUTHENTICATION FUNCTIONS =====
 
@@ -333,3 +339,5 @@ export function updateCustomerProfile(updates: Partial<CustomerProfile>): { succ
 
   return { success: true, customer: updatedCustomer }
 }
+=======
+>>>>>>> 345756831cd4f8276e0cecc2fecdf867e0a398b9
