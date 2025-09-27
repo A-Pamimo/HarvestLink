@@ -1,231 +1,162 @@
-🌱 HarvestLink — Hackathon MVP (QR-Free)
+# HarvestLink 🌱
 
-HarvestLink is a farm-to-store connector that makes sourcing local produce seamless. 
-Farmers list available crops in seconds, stores request inventory instantly, and matches are made by distance and freshness. 
-Orders are tracked on a map, deliveries confirmed manually, and an Impact Ticker shows food moved and kilometers saved.  
+A hackathon MVP that connects local farmers with stores for fresh produce delivery. Built with Next.js, TypeScript, and TailwindCSS.
 
-------------------------------------------------------------
-🚀 Features (Hackathon MVP)
+## 🚀 Quick Start
 
-- Farmer can create listings (item, qty, harvest date, location).
-- Store can post needs and get best match instantly.
-- Order detail page shows farm → store map, summary, and status toggle.
-- Delivery is confirmed manually (button), updating impact metrics.
-- Landing page shows live Impact Ticker with orders, kg, and km saved.
-- Admin page allows resetting data and monitoring metrics.
+```bash
+# Install dependencies
+npm install
 
-------------------------------------------------------------
-📂 File Structure
+# Start development server
+npm run dev
+```
 
-app/
-  layout.tsx
-  page.tsx                   # Landing
-  farmer/page.tsx
-  store/page.tsx
-  orders/[id]/page.tsx
-  admin/page.tsx
-  api/
-    seed/route.ts
-    metrics/route.ts
-    listings/route.ts
-    needs/route.ts
-    match/route.ts
-    orders/[id]/route.ts
-    orders/[id]/deliver/route.ts
-    orders/[id]/flag/route.ts
+Visit [http://localhost:3000](http://localhost:3000) to see the application.
 
-components/
-  landing/ImpactTicker.tsx
-  landing/RoleSwitcher.tsx
-  farmer/ListingForm.tsx
-  farmer/ListingsTable.tsx
-  store/NeedForm.tsx
-  store/MatchCard.tsx
-  order/OrderSummary.tsx
-  order/OrderMap.tsx
-  ui/Badge.tsx
-  ui/StatusChip.tsx
-  ui/Toast.tsx
+## 📋 Features
 
-lib/
-  types.ts
-  geo.ts
-  metrics.ts
-  db.ts           # in-memory store singleton
-  seeds.ts
+### Core Functionality
+- **Farmer Dashboard**: List fresh produce with harvest dates and quantities
+- **Store Dashboard**: Request produce and get matched with local farms
+- **Smart Matching**: Algorithm matches by distance, freshness, and quantity
+- **Order Tracking**: Real-time order status with delivery management
+- **Live Metrics**: Impact tracking (orders, kg moved, km saved, CO₂ avoided)
+- **Interactive Maps**: Visual delivery routes using react-leaflet
 
-styles/
-  globals.css
+### Pages & Flow
+1. **Landing Page** (`/`) - Role switcher and live impact metrics
+2. **Farmer Page** (`/farmer`) - Add listings and view inventory
+3. **Store Page** (`/store`) - Request produce and find matches
+4. **Order Details** (`/orders/[id]`) - Track delivery with map visualization
+5. **Admin Panel** (`/admin`) - Database management and system metrics
 
-------------------------------------------------------------
-🛠️ Data Model
+## 🛠️ Tech Stack
 
-type Coord = { lat: number; lon: number };
+- **Frontend**: Next.js 14 (App Router), TypeScript, TailwindCSS
+- **Data Fetching**: React Query (@tanstack/react-query)
+- **Maps**: react-leaflet + OpenStreetMap
+- **Database**: In-memory singleton (lib/db.ts)
+- **Styling**: TailwindCSS with custom green theme
 
-type Farm = { id: string; name: string; loc: Coord };
-type StoreEnt = { id: string; name: string; loc: Coord };
+## 📁 Project Structure
 
-type Listing = {
-  id: string;
-  farmId: string;
-  item: string;
-  qtyKg: number;
-  harvestTs: string;
-  pricePerKg?: number;
-  createdTs: string;
-};
+```
+HarvestLink/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes
+│   │   ├── listings/      # Farmer produce listings
+│   │   ├── needs/         # Store produce requests
+│   │   ├── match/         # Smart matching algorithm
+│   │   ├── orders/        # Order management
+│   │   ├── metrics/       # Impact metrics
+│   │   └── seed/          # Database reset
+│   ├── farmer/            # Farmer dashboard
+│   ├── store/             # Store dashboard
+│   ├── orders/[id]/       # Order details page
+│   ├── admin/             # Admin panel
+│   └── page.tsx           # Landing page
+├── components/            # Reusable React components
+├── lib/                   # Utilities and database
+│   ├── types.ts           # TypeScript interfaces
+│   └── db.ts              # In-memory database
+└── public/               # Static assets
+```
 
-type Need = {
-  id: string;
-  storeId: string;
-  item: string;
-  qtyKg: number;
-  needByTs: string;
-  createdTs: string;
-};
+## 🔄 Complete User Flow
 
-type Order = {
-  id: string;
-  listingId: string;
-  needId: string;
-  item: string;
-  qtyKg: number;
-  distanceKm: number;
-  etaMin: number;
-  status: 'CREATED' | 'DELIVERED' | 'FLAGGED';
-  createdTs: string;
-  deliveredTs?: string;
-};
+### Test the Full Flow:
 
-type Metrics = {
-  orders: number;
-  kgMoved: number;
-  kmSaved: number;
-  co2KgAvoided: number;
-};
+1. **Start as Farmer** (`/farmer`):
+   - Select "Green Valley Farm"
+   - Add listing: "Tomatoes", 50kg, today's date
+   - View listing in table
 
-------------------------------------------------------------
-🔌 API Contracts
+2. **Switch to Store** (`/store`):
+   - Select "Fresh Market"
+   - Request: "Tomatoes", 25kg, needed by tomorrow
+   - Click "Find Match" → Creates order automatically
 
-- POST /api/listings → create listing  
-- GET /api/listings?farmId=… → fetch farmer listings  
-- POST /api/needs → create store need  
-- POST /api/match { needId } → create order with best match  
-- GET /api/orders/:id → get order details  
-- POST /api/orders/:id/deliver → mark order delivered + update metrics  
-- POST /api/orders/:id/flag → mark order flagged  
-- GET /api/metrics → fetch metrics  
-- POST /api/seed → reset DB with sample data  
+3. **View Order** (`/orders/[id]`):
+   - See order summary with farm/store details
+   - View delivery route on interactive map
+   - Click "Mark as Delivered" → Updates metrics
 
-------------------------------------------------------------
-🌍 Pages & Purposes
+4. **Check Impact** (`/`):
+   - See live metrics update (orders, kg moved, CO₂ saved)
+   - Metrics refresh every 5 seconds
 
-Landing `/`
-- Purpose: Orient & route users, show impact.
-- Sections: Hero + CTA (Farmer/Store), Impact Ticker, “How it works”.
+5. **Admin Panel** (`/admin`):
+   - View system metrics and data overview
+   - Reset database to restore sample data
 
-Farmer `/farmer`
-- Purpose: Farmers create and view listings.
-- Sections: ListingForm, ListingsTable.
+## 🎯 Key Features Explained
 
-Store `/store`
-- Purpose: Stores post needs and see matches.
-- Sections: NeedForm, MatchCard → “Create Order”.
+### Smart Matching Algorithm
+- **Distance Priority**: Closest farms get higher match scores
+- **Freshness Factor**: Recently harvested produce prioritized
+- **Quantity Matching**: Ensures sufficient inventory
+- **Real-time ETA**: Calculates delivery time (~3 min/km)
 
-Order `/orders/[id]`
-- Purpose: Track details, confirm delivery.
-- Sections: OrderSummary, OrderMap, status toggle buttons.
+### Impact Metrics
+- **Orders Completed**: Total delivered orders
+- **Kg Fresh Produce**: Total weight of delivered goods
+- **Km Saved**: Direct farm-to-store distance
+- **CO₂ Avoided**: Environmental impact (~0.4kg CO₂/km)
 
-Admin `/admin`
-- Purpose: Reset data, monitor metrics.
-- Sections: SeedControls, MetricsPanel.
+### Database Design
+- **In-Memory Storage**: Simple singleton for hackathon MVP
+- **Sample Data**: Pre-loaded farms, stores, and listings
+- **Auto-Reset**: Admin can restore sample data anytime
 
-------------------------------------------------------------
-✅ Acceptance Criteria
+## 🧪 Testing & Development
 
-Landing:
-- Metrics show and refresh live.
-- Role buttons route correctly.
+### Manual Testing Checklist:
+- [ ] Farmer can add listings
+- [ ] Store can request produce
+- [ ] Matching creates orders
+- [ ] Order page shows details + map
+- [ ] Delivery updates metrics
+- [ ] Admin panel works
+- [ ] Metrics update live
 
-Farmer:
-- Listings can be created and appear in table.
+### Development Commands:
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
 
-Store:
-- Needs can be created; match returns with distance/ETA.
+## 🌟 Highlights for Demo
 
-Order:
-- Map shows farm → store.
-- “Mark Delivered” updates status + metrics.
-- “Flag Issue” disables delivery and marks order flagged.
+1. **Real-time Updates**: Metrics update every 5 seconds
+2. **Interactive Maps**: Visual delivery routes with farm/store pins
+3. **Smart UI**: Responsive design with loading states
+4. **Complete Flow**: End-to-end from listing to delivery
+5. **Environmental Focus**: CO₂ savings and local sourcing impact
 
-Admin:
-- Seed/reset clears DB and resets metrics.
+## 🚧 Future Enhancements
 
-------------------------------------------------------------
-👩‍💻 Work Split (3 Devs)
+- User authentication and roles
+- Payment processing integration
+- QR code scanning for deliveries
+- Push notifications
+- Persistent database (PostgreSQL/MongoDB)
+- Mobile app with React Native
 
-Dev A — Landing & Farmer
-- Pages: `/`, `/farmer`
-- Components: RoleSwitcher, ImpactTicker, ListingForm, ListingsTable
-- Depends on: /api/listings, /api/metrics
+## 📝 API Endpoints
 
-Dev B — Store & Matching
-- Page: `/store`
-- Components: NeedForm, MatchCard
-- Depends on: /api/needs, /api/match
+- `POST /api/listings` - Create farmer listing
+- `GET /api/listings?farmId=ID` - Get farm listings
+- `POST /api/needs` - Create store need
+- `POST /api/match` - Find and create order
+- `GET /api/orders/:id` - Get order details
+- `POST /api/orders/:id/deliver` - Mark delivered
+- `POST /api/orders/:id/flag` - Flag issue
+- `GET /api/metrics` - Get impact metrics
+- `POST /api/seed` - Reset database
 
-Dev C — Orders, Map & Admin
-- Pages: `/orders/[id]`, `/admin`
-- Components: OrderSummary, OrderMap, StatusChip, MetricsPanel
-- Depends on: /api/orders/:id, /api/orders/:id/deliver, /api/metrics, /api/seed
+---
 
-------------------------------------------------------------
-⏱️ Build Phases (Hackathon Timeline)
-
-Phase 1 (Core APIs + Forms): Listings + Needs endpoints, Farmer/Store forms.
-Phase 2 (Matching + Orders): Match logic, order creation, order detail page.
-Phase 3 (Map + Deliver): Route visualization, deliver/flag buttons, metrics update.
-Phase 4 (Impact + Admin): Landing ticker wired to metrics, admin seed/reset.
-Phase 5 (Polish): Toasts, badges, animations, mobile styles.
-
-------------------------------------------------------------
-📊 Metrics Logic
-
-- Distance (km): Haversine formula.
-- ETA (minutes): distance / 40 * 60 (assuming 40 km/h).
-- Km Saved: max(20 - distance, 0) (baseline 20 km).
-- CO₂ Avoided: kmSaved * 0.21 (avg car emissions, kg/km).
-- Kg Moved: order.qtyKg.
-
-------------------------------------------------------------
-🧭 Future Hooks
-
-- QR escrow verification.
-- SMS/WhatsApp listing input for low-tech farmers.
-- AI assist: photo-to-SKU, smart pricing, surplus rescue alerts.
-- Agentic AI roadmap: autonomous farmer/store/logistics agents.
-
-------------------------------------------------------------
-📝 TODO Checklist
-
-[ ] Scaffold Next.js app, Tailwind, React Query  
-[ ] Implement /api/seed with sample farms/stores/listings  
-[ ] Build Landing page with ImpactTicker + RoleSwitcher  
-[ ] Build Farmer page with ListingForm + ListingsTable  
-[ ] Build Store page with NeedForm + MatchCard  
-[ ] Implement /api/match with haversine scoring  
-[ ] Build Order page with OrderSummary + OrderMap + Deliver/Flag  
-[ ] Build Admin page with SeedControls + MetricsPanel  
-[ ] Wire ImpactTicker to /api/metrics (poll every 5–10s)  
-[ ] Add badges, toasts, and polish  
-[ ] Rehearse demo flow (Farmer → Store → Order → Deliver → Metrics)  
-
-------------------------------------------------------------
-👩‍⚖️ Demo Flow (for judges)
-
-1. Farmer lists cucumbers.  
-2. Store requests cucumbers.  
-3. Match appears with distance + ETA.  
-4. Store creates order → Order page with map.  
-5. Click “Mark Delivered” → status updates; landing ticker increments.  
-6. Show admin metrics + seed reset.  
+**Built for hackathon MVP** - Simple, functional, and ready to demo! 🎉
