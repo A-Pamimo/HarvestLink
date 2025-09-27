@@ -1,6 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-[color:var(--body-bg)] text-brand-text font-inter antialiased;
+  --body-bg: #fafaf9;
+}
 
 /* Leaflet CSS fixes */
 .leaflet-container {
