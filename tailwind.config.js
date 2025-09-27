@@ -7,19 +7,44 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        playfair: ['"Playfair Display"', 'serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
       colors: {
-        primary: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+        brand: {
+          primary: '#059669',
+          accent: '#f59e0b',
+          background: '#fafaf9',
+          text: '#1c1917',
+          success: '#22c55e',
+          error: '#ef4444',
         },
+      },
+      animation: {
+        fadeIn: 'fadeIn 0.6s ease-out both',
+        slideUp: 'slideUp 0.6s ease-out both',
+        pulse: 'pulse 1.8s ease-in-out infinite',
+        blob: 'blob 12s infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        slideUp: {
+          '0%': { opacity: 0, transform: 'translateY(12px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+        blob: {
+          '0%': { transform: 'translate(0px, 0px) scale(1)' },
+          '33%': { transform: 'translate(30px, -20px) scale(1.05)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+          '100%': { transform: 'translate(0px, 0px) scale(1)' },
+        },
+      },
+      backdropBlur: {
+        xs: '2px',
       },
     },
   },
